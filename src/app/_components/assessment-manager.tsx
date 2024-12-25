@@ -7,6 +7,8 @@ import MultipleChoiceQuestion from './multiple-choice-question'
 import FreeTextQuestion from './free-text-question'
 import RadioQuestion from './radio-question'
 import GradeDisplay from './grade-display'
+import GenerateAssessmentButton from './generate-assessment-button'
+import { Button } from '@/components/ui/button'
 
 type QuestionType = 'multiple-choice' | 'free-text' | 'radio'
 
@@ -18,7 +20,7 @@ export interface Question {
   correctAnswer: string | string[]
 }
 
-export default function AssessmentManager({ questions } : { questions: Question[] }) {
+export default function AssessmentManager({ questions, generateNewAssessment } : { questions: Question[], generateNewAssessment: () => void }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<(string | string[])[]>([])
   const [showGrade, setShowGrade] = useState(false)
@@ -50,6 +52,25 @@ export default function AssessmentManager({ questions } : { questions: Question[
       }
     })
     return (correctAnswers / questions.length) * 100
+  }
+
+  if (!currentQuestion) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center p-4 font-sans text-white">
+        <div className="max-w-2xl w-full bg-gray-900 rounded-lg shadow-xl p-6 border border-gray-800">
+          <h1 className="text-3xl font-bold mb-6 text-center text-white flex items-center justify-center">
+            <Sparkles className="w-8 h-8 mr-2 text-yellow-400" />
+            Anime Quiz
+            <Sparkles className="w-8 h-8 ml-2 text-yellow-400" />
+          </h1>
+          <div className="flex justify-center">
+            <Button onClick={generateNewAssessment} variant="secondary">
+              Generate New Assessment
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
