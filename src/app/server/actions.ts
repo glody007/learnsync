@@ -1,25 +1,7 @@
 "use server";
 
-import { openai } from '@ai-sdk/openai';
-import { generateObject } from 'ai';
-import { z } from 'zod';
-import { Client } from "@notionhq/client";
-import { NotionToMarkdown } from "notion-to-md";
-
-// const db = await notion.databases.query({
-//   database_id: process.env.DB_ID || "",
-// })
-
-// const pages = await notion.pages.retrieve({
-//   page_id: process.env.PAGE_ID || "",
-// })
-
-const notion = new Client({
-    auth: process.env.NOTION_TOKEN,
-});
-
-const n2m = new NotionToMarkdown({ notionClient: notion });
-
+import { getNotionPageContent } from '@/lib/content';
+import { generateQuestions } from '@/lib/assessment';
 
 const fakeMaterial = `
     # Naruto
@@ -39,23 +21,9 @@ const fakeMaterial = `
     to protect his village from the threat of the evil organization, the Akatsuki. Naruto's journey is marked by his struggles with his own personal demons, as well as his interactions with his friends and family.
 `
 
-
 export async function generateAssessment() {
-    const mdblocks = await n2m.pageToMarkdown(process.env.PAGE_ID || "");
-    const material = n2m.toMarkdownString(mdblocks).parent;
-    
-    const result = await generateObject({
-        model: openai('gpt-4-turbo'),
-        output: 'array',
-        schema: z.object({
-          id: z.number().describe('The id of the assessment question.'),
-          type: z.enum(['multiple-choice', 'free-text', 'radio']),
-          text: z.string().describe('The text of the assessment question.'),
-          options: z.array(z.string()).describe('The options for the assessment question.'),
-          correctAnswer: z.array(z.string()).describe('The correct answer for the assessment question.'),
-        }),
-        prompt: `For the material input into brackets generate 5 assessment questions with id, type(multiple-choice, free-text or radio), question text, options and correctAnswer [${material}] `,
-      });
+  const material = fakeMaterial //await getNotionPageContent(process.env.PAGE_ID || "", process.env.NOTION_TOKEN!)
+  const questions = await generateQuestions(material);
 
-      return { questions: result.object }
+  return { questions }
 }
