@@ -7,8 +7,11 @@ import MultipleChoiceQuestion from './multiple-choice-question'
 import FreeTextQuestion from './free-text-question'
 import RadioQuestion from './radio-question'
 import GradeDisplay from './grade-display'
-import GenerateAssessmentButton from './generate-assessment-button'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { SelectQuestion } from '@/db/schema'
+import { generateAssessment } from '../server/actions'
+import { useRouter } from 'next/navigation'
 
 type QuestionType = 'multiple-choice' | 'free-text' | 'radio'
 
@@ -20,10 +23,17 @@ export interface Question {
   correctAnswer: string | string[]
 }
 
-export default function AssessmentManager({ questions, generateNewAssessment } : { questions: Question[], generateNewAssessment: () => void }) {
+export default function AssessmentManager({ questions } : { questions: SelectQuestion[] }) {
+  const router = useRouter()
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<(string | string[])[]>([])
   const [showGrade, setShowGrade] = useState(false)
+
+  const [sourceId, setSourceId] = useState('')
+  const createNewAssessment = async (sourceId: string) => {
+    await generateAssessment(parseInt(sourceId))
+    router.refresh()
+  }
 
   const currentQuestion = questions[currentQuestionIndex]
 
@@ -60,11 +70,12 @@ export default function AssessmentManager({ questions, generateNewAssessment } :
         <div className="max-w-2xl w-full bg-gray-900 rounded-lg shadow-xl p-6 border border-gray-800">
           <h1 className="text-3xl font-bold mb-6 text-center text-white flex items-center justify-center">
             <Sparkles className="w-8 h-8 mr-2 text-yellow-400" />
-            Anime Quiz
+            Quiz
             <Sparkles className="w-8 h-8 ml-2 text-yellow-400" />
           </h1>
           <div className="flex justify-center">
-            <Button onClick={generateNewAssessment} variant="secondary">
+            <Input placeholder='Enter a source identifier' value={sourceId} onChange={e => setSourceId(e.target.value)} />
+            <Button onClick={() => createNewAssessment(sourceId)} variant="secondary">
               Generate New Assessment
             </Button>
           </div>

@@ -14,7 +14,7 @@ export async function generateQuestions(material: string) {
           options: z.array(z.string()).describe('The options for the assessment question.'),
           correctAnswer: z.array(z.string()).describe('The correct answer for the assessment question.'),
         }),
-        prompt: `For the material input into brackets generate 5 assessment questions with id, type(multiple-choice, free-text or radio), question text, options and correctAnswer [${material}] `,
+        prompt: `For the material input into brackets generate 10 assessment questions with id, type(multiple-choice, free-text or radio), question text, options and correctAnswer [${material}] `,
     });
 
     return result.object

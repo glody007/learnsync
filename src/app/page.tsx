@@ -1,23 +1,20 @@
-"use client"
+import { db } from "@/db/drizzle";
+import AssessmentManager from "./_components/assessment-manager";
+import GenerateQuestions from "./_components/generate-questions";
+import { 
+  questions as questionsTable,
+} from "@/db/schema";
 
 
-import { useState } from "react";
-import AssessmentManager, { Question } from "./_components/assessment-manager";
-import { generateAssessment } from "./server/actions";
+export default async function Home() {
+  const question = await db.select().from(questionsTable).limit(5)
+  const hasQuestions = question.length > 0
 
+  if(!hasQuestions) return <GenerateQuestions />
 
-
-export default function Home() {
-  const [questions, setQuestions] = useState<Question[]>([])
-
-  const createNewAssessment = async () => {
-    const response = await generateAssessment()
-    setQuestions(response.questions)
-  }
-  
   return (
     <div>
-      <AssessmentManager questions={questions} generateNewAssessment={createNewAssessment} />
+      <AssessmentManager questions={question} />
     </div>
   );
 }
