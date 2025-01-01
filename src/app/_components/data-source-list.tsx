@@ -1,0 +1,97 @@
+'use client'
+
+import { ReactNode, useState } from "react";
+import { FileText, Globe, Book, Plus } from "lucide-react";
+import { DataSourceDialog, type DataSourceSpec } from "./data-source-dialog";
+import { CustomSourceForm, NotionSourceForm, PDFSourceForm, URLSourceForm } from "./sources-forms";
+
+const dataSources: DataSourceSpec[] = [
+  {
+    icon: <FileText className="h-10 w-10 text-primary" />,
+    title: "PDF Documents",
+    description: "Extract data from PDF files with ease.",
+    modalDescription: "Upload your PDF document to extract its contents.",
+    type: 'pdf',
+  },
+  {
+    icon: <Globe className="h-10 w-10 text-primary" />,
+    title: "Web URLs",
+    description: "Fetch and analyze data from web pages.",
+    modalDescription: "Enter a web URL to fetch and analyze its content.",
+    type: 'url',
+  },
+  {
+    icon: <Book className="h-10 w-10 text-primary" />,
+    title: "Notion Pages",
+    description: "Integrate seamlessly with your Notion workspace.",
+    modalDescription: "Enter your Notion page URL to import its content.",
+    type: 'notion',
+  },
+  {
+    icon: <Plus className="h-10 w-10 text-primary" />,
+    title: "More Sources",
+    description: "Expand your data reach with additional integrations.",
+    modalDescription: "Suggest a new integration you'd like to see.",
+    type: 'custom',
+  },
+];
+
+export function DataSourceList() {
+  const [activeSource, setActiveSource] = useState<DataSourceSpec | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleSourceClick = (source: DataSourceSpec) => {
+    setActiveSource(source);
+    setIsDialogOpen(true);
+  };
+
+  const activeSourceUI = () => {  
+    if(activeSource?.type === 'notion') return <NotionSourceForm />
+    if(activeSource?.type === 'pdf') return <PDFSourceForm />
+    if(activeSource?.type === 'url') return <URLSourceForm />
+    return <CustomSourceForm />
+  }
+
+  return (
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-8">
+      {dataSources.map((source, index) => (
+        <DataSourceCard
+          key={index}
+          icon={source.icon}
+          title={source.title}
+          description={source.description}
+          onClick={() => handleSourceClick(source)}
+        />
+      ))}
+      <DataSourceDialog
+        isOpen={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+        sourceSpec={activeSource}
+        content={activeSourceUI()}
+      />
+    </div>
+  );
+}
+
+function DataSourceCard({
+  icon,
+  title,
+  description,
+  onClick,
+}: {
+  icon: ReactNode;
+  title: string;
+  description: string;
+  onClick: () => void;
+}) {
+  return (
+    <div
+      className="flex flex-col items-center space-y-2 border border-border p-4 rounded-lg cursor-pointer transition-colors hover:bg-accent"
+      onClick={onClick}
+    >
+      {icon}
+      <h3 className="text-xl font-bold">{title}</h3>
+      <p className="text-sm text-muted-foreground text-center">{description}</p>
+    </div>
+  );
+}
