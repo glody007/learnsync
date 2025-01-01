@@ -4,6 +4,8 @@ import { ReactNode, useState } from "react";
 import { FileText, Globe, Book, Plus } from "lucide-react";
 import { DataSourceDialog, type DataSourceSpec } from "./data-source-dialog";
 import { CustomSourceForm, NotionSourceForm, PDFSourceForm, URLSourceForm } from "./sources-forms";
+import { SelectSource } from "@/db/schema";
+import { useRouter } from "next/navigation";
 
 const dataSources: DataSourceSpec[] = [
   {
@@ -36,9 +38,11 @@ const dataSources: DataSourceSpec[] = [
   },
 ];
 
-export function DataSourceList() {
+export function DataSourceList({ sources }: { sources: SelectSource[] }) {
   const [activeSource, setActiveSource] = useState<DataSourceSpec | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const router = useRouter()
 
   const handleSourceClick = (source: DataSourceSpec) => {
     setActiveSource(source);
@@ -46,7 +50,8 @@ export function DataSourceList() {
   };
 
   const activeSourceUI = () => {  
-    if(activeSource?.type === 'notion') return <NotionSourceForm />
+    const source = sources.find(s => s.type === activeSource?.type)
+    if(activeSource?.type === 'notion' && source) return <NotionSourceForm sourceId={source.id} handleSubmit={() => router.push(`/assessment/${source?.id}`)} />
     if(activeSource?.type === 'pdf') return <PDFSourceForm />
     if(activeSource?.type === 'url') return <URLSourceForm />
     return <CustomSourceForm />
@@ -60,6 +65,7 @@ export function DataSourceList() {
           icon={source.icon}
           title={source.title}
           description={source.description}
+          isActive={sources.findIndex(s => s.type === source.type) !== -1}
           onClick={() => handleSourceClick(source)}
         />
       ))}
@@ -78,16 +84,18 @@ function DataSourceCard({
   title,
   description,
   onClick,
+  isActive = false,
 }: {
   icon: ReactNode;
   title: string;
   description: string;
   onClick: () => void;
+  isActive?: boolean;
 }) {
   return (
     <div
-      className="flex flex-col items-center space-y-2 border border-border p-4 rounded-lg cursor-pointer transition-colors hover:bg-accent"
-      onClick={onClick}
+      className={`flex flex-col items-center space-y-2 border border-border p-4 rounded-lg cursor-pointer transition-colors hover:bg-accent ${isActive ? '' : 'opacity-50'}`}
+      onClick={isActive ? onClick : undefined}
     >
       {icon}
       <h3 className="text-xl font-bold">{title}</h3>

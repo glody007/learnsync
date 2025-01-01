@@ -1,31 +1,40 @@
+import { Loader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useIsMobile } from "@/hooks/is-mobile";
 import { useState } from "react";
+import { generateQuestionsFromSource } from "../server/actions";
 
-export const NotionSourceForm = () => {
+export const NotionSourceForm = ({ handleSubmit, sourceId }: { sourceId: number, handleSubmit: (id: number) => void }) => {
   const [url, setUrl] = useState("");
-  const handleSubmit = (url: string) => {
-    console.log(url);
+  const [isLoading, setLoading] = useState(false);
+
+  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    const url = e.currentTarget.url.value;
+    await generateQuestionsFromSource(sourceId)
+    handleSubmit(parseInt(url));
   };
 
   const isMobile = useIsMobile();
 
   return (
-    <form className="space-y-8">
+    <form onSubmit={submit} className="space-y-8">
       <div className="space-y-4">
         <p>Enter your Notion page URL to import its content.</p>
         <Input
+          name="url"
           placeholder="https://www.notion.so/your-page"
           value={url}
-          type="url"
           onChange={(e) => setUrl(e.target.value)}
         />
       </div>
       <Button
-        onClick={() => handleSubmit(url)}
         className={isMobile ? "w-full" : ""}
+        disabled={isLoading}
       >
+        {isLoading && <Loader />}
         Fetch Content
       </Button>
     </form>

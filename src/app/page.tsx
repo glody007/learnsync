@@ -1,14 +1,18 @@
+import { db } from "@/db/drizzle";
 import { DataSourceList } from "./_components/data-source-list";
-import { Header } from "./_components/header";
+import { sources as sourceTable } from "@/db/schema";
 
 
-export default function ProductHero() {
 
+
+export default async function ProductHero() {
+  const sources = await db.select().from(sourceTable)
+  
 
   return (
     <>
-      <Header />
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
+      
+      <section className="w-full py-12 md:py-24  bg-background">
         <div className="container px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
             <div className="flex flex-col justify-center space-y-4">
@@ -24,7 +28,7 @@ export default function ProductHero() {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <DataSourceList />
+              <DataSourceList sources={sources} />
             </div>
           </div>
         </div>

@@ -10,7 +10,7 @@ import GradeDisplay from './grade-display'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { SelectQuestion } from '@/db/schema'
-import { generateAssessment } from '../server/actions'
+import { generateAssessment } from '@/app/server/actions'
 import { useRouter } from 'next/navigation'
 
 type QuestionType = 'multiple-choice' | 'free-text' | 'radio'
@@ -85,7 +85,7 @@ export default function AssessmentManager({ questions } : { questions: SelectQue
   }
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-4 font-sans text-white">
+    <div className="flex items-center justify-center p-4 font-sans text-white">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -93,7 +93,7 @@ export default function AssessmentManager({ questions } : { questions: SelectQue
       >
         <h1 className="text-3xl font-bold mb-6 text-center text-white flex items-center justify-center">
           <Sparkles className="w-8 h-8 mr-2 text-yellow-400" />
-          Anime Quiz
+           Assessment
           <Sparkles className="w-8 h-8 ml-2 text-yellow-400" />
         </h1>
         <AnimatePresence mode="wait">
