@@ -20,7 +20,7 @@ export function Header() {
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
-                <Link href="/about" legacyBehavior passHref>
+                <Link href="https://github.com/glody007/learnsync" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     Github
                   </NavigationMenuLink>
