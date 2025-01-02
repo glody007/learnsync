@@ -19,7 +19,7 @@ Building it in public using **Next.js**, **Vercel AI SDK**, **Upstash**, **Neo4j
 - [ ] Knowledge graph(semantic network).
 - [ ] Assessment recommendation system.
 - [ ] Lesson recommendation system.
-- [ ] Adaptive question difficulty calibration.
+- [ ] Adaptive lessons and questions difficulty calibration.
 
 ### Getting Started
 
@@ -54,6 +54,7 @@ For questions, feedback, or collaboration opportunities, feel free to reach out 
 
 - **Email:** glodymbutwile@gmail.com
 - **Twitter:** [@glmbutwile](https://twitter.com/glmbutwile)
+- **Linkedin:** [glody mbutwile](https://www.linkedin.com/in/glody-mbutwile)
 
 ---
 
