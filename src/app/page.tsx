@@ -21,9 +21,7 @@ export default async function ProductHero() {
                   LearnSync
                 </h1>
                 <p className="max-w-[600px] text-muted-foreground md:text-xl dark:text-gray-400">
-                  Unlock the power of data integration. Our product seamlessly
-                  combines information from various sources, providing you with
-                  comprehensive insights at your fingertips.
+                  Transform your <strong>custom content</strong>—blog posts, books, Notion pages, or videos—into a <strong>Duolingo-like</strong> learning experience for <strong>any topic</strong>, with assessments, knowledge graphs, and personalized recommendations.
                 </p>
               </div>
             </div>

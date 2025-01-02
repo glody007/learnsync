@@ -1,6 +1,6 @@
 # LearnSync
 
-Turn any learning material into a **Duolingo-like** experience: Get data from **Notion**, **url**, **PDFs**, **audio**, and **videos**, and generate assessments, knowledge graphs, and personalized recommendations to help you learn and practice effectively.
+Transform your custom content—blog **posts**, **PDFs**, **Notion pages**, or **videos**—into a **Duolingo-like** learning experience for **any topic**, with assessments, knowledge graphs, and personalized recommendations.
 
 Building it in public using **Next.js**, **Vercel AI SDK**, **Upstash**, **Neo4j**, and **Neon postgres**.
 
