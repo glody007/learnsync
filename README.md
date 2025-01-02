@@ -1,8 +1,8 @@
 # LearnSync
 
-Get data from **Notion**, **websites**, **PDFs**, **audio**, and **videos**, and generate assessments, knowledge graphs, and personalized recommendations to help you learn and practice materials effectively.
+Turn any learning material into a **Duolingo-like** experience: Get data from **Notion**, **url**, **PDFs**, **audio**, and **videos**, and generate assessments, knowledge graphs, and personalized recommendations to help you learn and practice effectively.
 
-Building it in public using **Next.js** and  **Vercel AI SDK**.
+Building it in public using **Next.js**, **Vercel AI SDK**, **Upstash**, **Neo4j**, and **Neon postgres**.
 
 ## Roadmap
 
@@ -12,10 +12,12 @@ Building it in public using **Next.js** and  **Vercel AI SDK**.
     - [ ] PDFs.
     - [ ] Audio.
     - [ ] Videos.
-- [ ] AI-powered assessment generation.
-- [ ] Adaptive learning with personalized recommendations.
-- [ ] Knowledge graph construction and visualization.
-- [ ] Collaborative learning features.
+- [x] Raw AI assessment generation.
+- [ ] Content Splitting and indexation for RAG
+- [ ] Knowledge graph(semantic network).
+- [ ] Assessment recommendation system.
+- [ ] Lesson recommendation system.
+- [ ] Adaptive question difficulty calibration.
 
 ### Getting Started
 
