@@ -4,6 +4,8 @@ Transform your custom content—blog **posts**, **PDFs**, **Notion pages**, or *
 
 Building it in public using **Next.js**, **Vercel AI SDK**, **Upstash**, **Neo4j**, and **Neon postgres**.
 
+![Preview Image](public/preview.png)
+
 ## Roadmap
 
 - [ ] Content import from multiple sources.
