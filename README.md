@@ -10,10 +10,10 @@ Building it in public using **Next.js**, **Vercel AI SDK**, **Upstash**, **Neo4j
 
 - [ ] Content import from multiple sources.
     - [x] Notion.
-    - [ ] Websites.
-    - [ ] PDFs.
+    - [ ] Web Page.
+    - [ ] PDF.
     - [ ] Audio.
-    - [ ] Videos.
+    - [ ] Video.
 - [x] Raw AI assessment generation.
 - [ ] Content Splitting and indexation for RAG
 - [ ] Knowledge graph(semantic network).

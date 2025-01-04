@@ -7,5 +7,7 @@ export async function getNotionPageContent(pageId: string, token: string) {
     const n2m = new NotionToMarkdown({ notionClient: notion });
 
     const mdblocks = await n2m.pageToMarkdown(pageId);
-    return n2m.toMarkdownString(mdblocks).parent;
+    return {
+        content: n2m.toMarkdownString(mdblocks).parent
+    }
 }

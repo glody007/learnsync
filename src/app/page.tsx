@@ -3,15 +3,12 @@ import { DataSourceList } from "./_components/data-source-list";
 import { sources as sourceTable } from "@/db/schema";
 
 
-
-
 export default async function ProductHero() {
   const sources = await db.select().from(sourceTable)
   
 
   return (
     <>
-      
       <section className="w-full py-12 md:py-24  bg-background">
         <div className="container px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:grid-cols-2">
@@ -21,7 +18,7 @@ export default async function ProductHero() {
                   LearnSync
                 </h1>
                 <p className="max-w-[600px] text-muted-foreground md:text-xl dark:text-gray-400">
-                  Transform your <strong>custom content</strong>—blog posts, books, Notion pages, or videos—into a <strong>Duolingo-like</strong> learning experience for <strong>any topic</strong>, with assessments, knowledge graphs, and personalized recommendations.
+                  Transform your <strong className="text-black">custom content</strong>—blog posts, books, Notion pages, or videos—into a <strong className="text-black">Duolingo-like</strong> learning experience for <strong className="text-black">any topic</strong>, with assessments, knowledge graphs, and personalized recommendations.
                 </p>
               </div>
             </div>

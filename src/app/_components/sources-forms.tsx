@@ -12,9 +12,8 @@ export const NotionSourceForm = ({ handleSubmit, sourceId }: { sourceId: number,
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    const url = e.currentTarget.url.value;
     await generateQuestionsFromSource(sourceId)
-    handleSubmit(parseInt(url));
+    handleSubmit(sourceId);
   };
 
   const isMobile = useIsMobile();
@@ -71,16 +70,21 @@ export const PDFSourceForm = () => {
   );
 };
 
-export const URLSourceForm = () => {
+export const URLSourceForm = ({ handleSubmit, sourceId }: { sourceId: number, handleSubmit: (id: number) => void }) => {
   const [url, setUrl] = useState("");
-  const handleSubmit = (url: string) => {
-    console.log(url);
-  };
-
+  const [isLoading, setLoading] = useState(false);
+  
   const isMobile = useIsMobile();
 
+  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    await generateQuestionsFromSource(sourceId, {url})
+    handleSubmit(parseInt(url));
+  };
+
   return (
-    <form className="space-y-8">
+    <form onSubmit={submit} className="space-y-8">
       <div className="space-y-4">
         <p>Enter a web URL to fetch and analyze its content.</p>
         <Input
@@ -91,9 +95,10 @@ export const URLSourceForm = () => {
         />
       </div>
       <Button
-        onClick={() => handleSubmit(url)}
         className={isMobile ? "w-full" : ""}
+        disabled={isLoading}
       >
+        {isLoading && <Loader />}
         Fetch Content
       </Button>
     </form>
