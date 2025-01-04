@@ -1,5 +1,3 @@
-// File: app/lib/upstash/vectorStore.server.ts
- 
 import embeddings from '@/lib/openai/embedding.server'
 import { Index as UpstashIndex } from '@upstash/vector'
 import { UpstashVectorStore } from '@langchain/community/vectorstores/upstash'
