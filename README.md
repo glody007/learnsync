@@ -33,6 +33,12 @@ yarn install
 pnpm install
 ```
 
+Set Environment variables:
+
+```bash
+cp .env.example .env
+```
+
 First, run the development server:
 
 ```bash

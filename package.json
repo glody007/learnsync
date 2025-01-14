@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.0.11",
+    "@clerk/nextjs": "^6.9.10",
     "@langchain/community": "^0.3.22",
     "@langchain/core": "^0.3.27",
     "@langchain/openai": "^0.3.16",
