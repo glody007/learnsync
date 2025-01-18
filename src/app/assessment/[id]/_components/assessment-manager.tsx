@@ -66,9 +66,9 @@ export default function AssessmentManager({ questions } : { questions: SelectQue
 
   if (!currentQuestion) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center p-4 font-sans text-white">
-        <div className="max-w-2xl w-full bg-gray-900 rounded-lg shadow-xl p-6 border border-gray-800">
-          <h1 className="text-3xl font-bold mb-6 text-center text-white flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center p-4 font-sans text-white">
+        <div className="max-w-2xl w-full  rounded-lg shadow-xl p-6 border border-gray-800">
+          <h1 className="text-3xl font-bold mb-6 text-center  flex items-center justify-center">
             <Sparkles className="w-8 h-8 mr-2 text-yellow-400" />
             Quiz
             <Sparkles className="w-8 h-8 ml-2 text-yellow-400" />
@@ -85,13 +85,13 @@ export default function AssessmentManager({ questions } : { questions: SelectQue
   }
 
   return (
-    <div className="flex items-center justify-center p-4 font-sans text-white">
+    <div className="flex items-center justify-center p-4 font-sans">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-2xl w-full bg-gray-900 rounded-lg shadow-xl p-6 border border-gray-800"
+        className="max-w-2xl w-full  rounded-lg shadow p-6 border border-gray-300"
       >
-        <h1 className="text-3xl font-bold mb-6 text-center text-white flex items-center justify-center">
+        <h1 className="text-3xl font-bold mb-6 text-center  flex items-center justify-center">
           <Sparkles className="w-8 h-8 mr-2 text-yellow-400" />
            Assessment
           <Sparkles className="w-8 h-8 ml-2 text-yellow-400" />
@@ -136,7 +136,7 @@ export default function AssessmentManager({ questions } : { questions: SelectQue
         </AnimatePresence>
         {!showGrade && (
           <motion.div 
-            className="mt-4 text-center text-gray-400"
+            className="mt-4 text-center text-gray-600"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}

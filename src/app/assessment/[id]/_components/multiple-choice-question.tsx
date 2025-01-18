@@ -29,11 +29,11 @@ export default function MultipleChoiceQuestion({ question, onAnswer }: MultipleC
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold text-white mb-4">{question.text}</h2>
+      <h2 className="text-xl font-semibold  mb-4">{question.text}</h2>
       {question.options?.map((option, index) => (
         <motion.div 
           key={index} 
-          className="flex items-center space-x-2 bg-gray-800 p-3 rounded-lg border border-gray-700"
+          className="flex items-center space-x-2  p-3 rounded-lg border border-gray-700"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
@@ -44,7 +44,7 @@ export default function MultipleChoiceQuestion({ question, onAnswer }: MultipleC
             onCheckedChange={() => handleOptionChange(option)}
             className="border-gray-600 text-blue-500"
           />
-          <label htmlFor={`option-${index}`} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-300">
+          <label htmlFor={`option-${index}`} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-500">
             {option}
           </label>
         </motion.div>
