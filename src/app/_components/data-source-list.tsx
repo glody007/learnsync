@@ -53,7 +53,7 @@ export function DataSourceList({ sources }: { sources: SelectSource[] }) {
     const source = sources.find(s => s.type === activeSource?.type)
     if(activeSource?.type === 'notion' && source) return <NotionSourceForm sourceId={source.id} handleSubmit={() => router.push(`/assessment/${source?.id}`)} />
     if(activeSource?.type === 'pdf') return <PDFSourceForm />
-    if(activeSource?.type === 'url' && source) return <URLSourceForm sourceId={source?.id} handleSubmit={() => router.push(`/assessment/${source?.id}`)} />
+    if(activeSource?.type === 'url' && source) return <URLSourceForm sourceId={source?.id} handleSubmit={(materialId) => router.push(`/assessment/${materialId}`)} />
     return <CustomSourceForm />
   }
 

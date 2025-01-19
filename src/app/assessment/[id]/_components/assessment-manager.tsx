@@ -134,6 +134,7 @@ export default function AssessmentManager({ questions } : { questions: SelectQue
             </motion.div>
           )}
         </AnimatePresence>
+        
         {!showGrade && (
           <motion.div 
             className="mt-4 text-center text-gray-600"

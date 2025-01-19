@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useIsMobile } from "@/hooks/is-mobile";
 import { useState } from "react";
-import { generateQuestionsFromSource } from "../server/actions";
+import { generateMaterial } from "../server/actions";
 
 export const NotionSourceForm = ({ handleSubmit, sourceId }: { sourceId: number, handleSubmit: (id: number) => void }) => {
   const [url, setUrl] = useState("");
@@ -12,7 +12,7 @@ export const NotionSourceForm = ({ handleSubmit, sourceId }: { sourceId: number,
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    await generateQuestionsFromSource(sourceId)
+    await generateMaterial(sourceId)
     handleSubmit(sourceId);
   };
 
@@ -70,7 +70,7 @@ export const PDFSourceForm = () => {
   );
 };
 
-export const URLSourceForm = ({ handleSubmit, sourceId }: { sourceId: number, handleSubmit: (id: number) => void }) => {
+export const URLSourceForm = ({ handleSubmit, sourceId }: { sourceId: number, handleSubmit: (materialId: number) => void }) => {
   const [url, setUrl] = useState("");
   const [isLoading, setLoading] = useState(false);
   
@@ -79,8 +79,8 @@ export const URLSourceForm = ({ handleSubmit, sourceId }: { sourceId: number, ha
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    await generateQuestionsFromSource(sourceId, {url})
-    handleSubmit(parseInt(url));
+    const { material} = await generateMaterial(sourceId, {url})
+    handleSubmit(material.id);
   };
 
   return (

@@ -1,4 +1,4 @@
-import { integer, text, pgTable, pgEnum, serial, timestamp  } from "drizzle-orm/pg-core";
+import { integer, text, pgTable, pgEnum, serial, timestamp, jsonb  } from "drizzle-orm/pg-core";
 import { relations } from 'drizzle-orm';
 
 export const sourceType = pgEnum('source_type', ['notion', 'pdf', 'url']);
@@ -10,17 +10,25 @@ export const sources = pgTable("sources", {
   lastSyncAt: timestamp("last_sync_at").defaultNow(),
 });
 
-export const assessments = pgTable("assessments", {
+export const materials = pgTable("materials", {
   id: serial("id").primaryKey(),
   sourceId: integer("sourceId").notNull(),
+  metadata: jsonb("metadata").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  userId: text("user_id"),
+});
+
+export const assessments = pgTable("assessments", {
+  id: serial("id").primaryKey(),
+  materialId: integer("material_id").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
 export const assessmentsRelations = relations(assessments, ({ many, one }) => ({
     assessmentQuestions: many(assessmentsQuestions),
-    source: one(sources, {
-    fields: [assessments.sourceId],
-    references: [sources.id],
+    material: one(materials, {
+      fields: [assessments.materialId],
+      references: [materials.id],
     }),
 }));
 
@@ -28,7 +36,7 @@ export const questionType = pgEnum('question_type', ['multiple-choice', 'free-te
 
 export const questions = pgTable('questions', {
   id: serial('id').primaryKey(),
-  sourceId: integer('source_id').references(() => sources.id).notNull(),
+  materialId: integer('material_id').references(() => materials.id).notNull(),
   type: questionType('type').default('radio'),
   text: text('text').notNull(),
   options: text('options').array().notNull(),
@@ -37,9 +45,9 @@ export const questions = pgTable('questions', {
 
 export const questionsRelations = relations(questions, ({ many, one }) => ({
     assessmentQuestions: many(assessmentsQuestions),
-    source: one(sources, {
-      fields: [questions.sourceId],
-      references: [sources.id],
+    material: one(materials, {
+      fields: [questions.materialId],
+      references: [materials.id],
     }),
 }));
 
