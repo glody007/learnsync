@@ -8,6 +8,7 @@ import { getUrlContent } from '@/lib/ingestion/url.server';
 import { Document } from 'langchain/document'
 import upstashVectorStore from '@/lib/upstash/vector-store.server';
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import { auth } from '@clerk/nextjs/server';
 
 export async function generateAssessment(materialId: number) {
   const materials = await db.select().from(materialTable).where(eq(materialTable.id, materialId));
@@ -32,9 +33,12 @@ export async function generateMaterial(sourceType: SourceType, metadata?: { url:
       materialData = await getUrlContent(metadata?.url);
     }
 
+    const { userId } = await auth();
+
     const insertedMaterials = await db.insert(materialTable).values({ 
       sourceType, 
-      metadata: metadata
+      metadata: metadata,
+      userId
     }).returning();
 
     const material = insertedMaterials[0]
