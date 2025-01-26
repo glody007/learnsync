@@ -30,7 +30,7 @@ export default function FreeTextQuestion({ question, onAnswer }: FreeTextQuestio
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
           placeholder="Type your answer here"
-          className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500"
+          className="border-gray-300 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500"
         />
       </motion.div>
       <motion.div

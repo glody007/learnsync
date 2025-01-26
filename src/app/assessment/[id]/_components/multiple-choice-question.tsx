@@ -33,7 +33,7 @@ export default function MultipleChoiceQuestion({ question, onAnswer }: MultipleC
       {question.options?.map((option, index) => (
         <motion.div 
           key={index} 
-          className="flex items-center space-x-2  p-3 rounded-lg border border-gray-700"
+          className="flex items-center space-x-2  p-3 rounded-lg border border-gray-300"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}

@@ -29,13 +29,13 @@ export default function RadioQuestion({ question, onAnswer }: RadioQuestionProps
         {question.options?.map((option, index) => (
           <motion.div 
             key={index} 
-            className="flex items-center space-x-2 bg-gray-800 p-3 rounded-lg border border-gray-700"
+            className="flex items-center space-x-2 p-3 rounded-lg border border-gray-300"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
             <RadioGroupItem value={option} id={`option-${index}`} className="border-gray-600 text-blue-500" />
-            <Label htmlFor={`option-${index}`} className="text-gray-300">{option}</Label>
+            <Label htmlFor={`option-${index}`} className="text-gray-500">{option}</Label>
           </motion.div>
         ))}
       </RadioGroup>
