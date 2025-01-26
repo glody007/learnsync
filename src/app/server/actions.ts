@@ -1,9 +1,8 @@
 "use server";
 
-import { getNotionPageContent } from '@/lib/ingestion/notion.server';
 import { generateQuestions } from '@/lib/assessment.server';
 import { db } from '@/db/drizzle';
-import { sources as sourcesTable, questions as questionTable, materials as materialTable } from '@/db/schema';
+import { questions as questionTable, materials as materialTable, SourceType } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { getUrlContent } from '@/lib/ingestion/url.server';
 import { Document } from 'langchain/document'
@@ -22,26 +21,26 @@ export async function generateAssessment(materialId: number) {
   return { questions }
 }
 
-export async function generateMaterial(sourceId: number, metadata?: { url: string }) {
-    const sources = await db.select().from(sourcesTable).where(eq(sourcesTable.id, sourceId));
-    const source = sources[0];
-
-    if(!source) {
-        throw new Error('Source not found');
-    }
-
-    if(source.type !== 'notion' && source.type !== 'url') {
+export async function generateMaterial(sourceType: SourceType, metadata?: { url: string }) {
+    if(sourceType !== 'notion' && sourceType !== 'url') {
         throw new Error('Unsupported source type');
     }
 
     let materialData = { content: '' }
 
-    if(source.type === 'notion') {
-      materialData = await getNotionPageContent(source.identifier, process.env.NOTION_TOKEN!)
+    if (sourceType === 'url' && metadata?.url) {
+      materialData = await getUrlContent(metadata?.url);
     }
 
-    if (source.type === 'url') {
-      materialData = await getUrlContent(metadata?.url ?? source.identifier);
+    const insertedMaterials = await db.insert(materialTable).values({ 
+      sourceType, 
+      metadata: metadata
+    }).returning();
+
+    const material = insertedMaterials[0]
+
+    if(!material) {
+      throw new Error('Failed to insert material');
     }
 
     const splitter = new RecursiveCharacterTextSplitter({
@@ -50,23 +49,12 @@ export async function generateMaterial(sourceId: number, metadata?: { url: strin
     });
     
     const documents = await splitter.splitDocuments([
-      new Document({ pageContent: materialData.content, metadata: { sourceId } }),
+      new Document({ pageContent: materialData.content, metadata: { ...metadata, materialId: material.id } }),
     ]);
-
-    const insertedMaterials = await db.insert(materialTable).values({ 
-      sourceId, 
-      metadata: metadata
-    }).returning();
 
     const questions = await generateQuestions(materialData.content);
 
     await upstashVectorStore.addDocuments(documents)
-
-    const material = insertedMaterials[0]
-
-    if(!material) {
-      throw new Error('Failed to insert material');
-    }
 
     await db
       .insert(questionTable)

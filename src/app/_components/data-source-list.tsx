@@ -4,8 +4,8 @@ import { ReactNode, useState } from "react";
 import { FileText, Globe, Book, Plus } from "lucide-react";
 import { DataSourceDialog, type DataSourceSpec } from "./data-source-dialog";
 import { CustomSourceForm, NotionSourceForm, PDFSourceForm, URLSourceForm } from "./sources-forms";
-import { SelectSource } from "@/db/schema";
 import { useRouter } from "next/navigation";
+import { SourceType } from "@/db/schema";
 
 const dataSources: DataSourceSpec[] = [
   {
@@ -38,7 +38,7 @@ const dataSources: DataSourceSpec[] = [
   },
 ];
 
-export function DataSourceList({ sources }: { sources: SelectSource[] }) {
+export function DataSourceList({ sources }: { sources: SourceType[] }) {
   const [activeSource, setActiveSource] = useState<DataSourceSpec | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -50,10 +50,10 @@ export function DataSourceList({ sources }: { sources: SelectSource[] }) {
   };
 
   const activeSourceUI = () => {  
-    const source = sources.find(s => s.type === activeSource?.type)
-    if(activeSource?.type === 'notion' && source) return <NotionSourceForm sourceId={source.id} handleSubmit={() => router.push(`/assessment/${source?.id}`)} />
+    const source = sources.find(s => s === activeSource?.type)
+    if(activeSource?.type === 'notion' && source) return <NotionSourceForm  handleSubmit={(materialId) => router.push(`/assessment/${materialId}`)} />
     if(activeSource?.type === 'pdf') return <PDFSourceForm />
-    if(activeSource?.type === 'url' && source) return <URLSourceForm sourceId={source?.id} handleSubmit={(materialId) => router.push(`/assessment/${materialId}`)} />
+    if(activeSource?.type === 'url' && source) return <URLSourceForm handleSubmit={(materialId) => router.push(`/assessment/${materialId}`)} />
     return <CustomSourceForm />
   }
 
@@ -65,7 +65,7 @@ export function DataSourceList({ sources }: { sources: SelectSource[] }) {
           icon={source.icon}
           title={source.title}
           description={source.description}
-          isActive={sources.findIndex(s => s.type === source.type) !== -1}
+          isActive={sources.findIndex(s => s === source.type) !== -1}
           onClick={() => handleSourceClick(source)}
         />
       ))}

@@ -5,15 +5,15 @@ import { useIsMobile } from "@/hooks/is-mobile";
 import { useState } from "react";
 import { generateMaterial } from "../server/actions";
 
-export const NotionSourceForm = ({ handleSubmit, sourceId }: { sourceId: number, handleSubmit: (id: number) => void }) => {
+export const NotionSourceForm = ({ handleSubmit }: { handleSubmit: (id: number) => void }) => {
   const [url, setUrl] = useState("");
   const [isLoading, setLoading] = useState(false);
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    await generateMaterial(sourceId)
-    handleSubmit(sourceId);
+    const { material } = await generateMaterial("notion")
+    handleSubmit(material.id);
   };
 
   const isMobile = useIsMobile();
@@ -70,7 +70,7 @@ export const PDFSourceForm = () => {
   );
 };
 
-export const URLSourceForm = ({ handleSubmit, sourceId }: { sourceId: number, handleSubmit: (materialId: number) => void }) => {
+export const URLSourceForm = ({ handleSubmit }: { handleSubmit: (materialId: number) => void }) => {
   const [url, setUrl] = useState("");
   const [isLoading, setLoading] = useState(false);
   
@@ -79,7 +79,7 @@ export const URLSourceForm = ({ handleSubmit, sourceId }: { sourceId: number, ha
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    const { material} = await generateMaterial(sourceId, {url})
+    const { material} = await generateMaterial('url', {url})
     handleSubmit(material.id);
   };
 

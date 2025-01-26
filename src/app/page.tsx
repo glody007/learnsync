@@ -1,11 +1,9 @@
-import { db } from "@/db/drizzle";
+import { SourceType } from "@/db/schema";
 import { DataSourceList } from "./_components/data-source-list";
-import { sources as sourceTable } from "@/db/schema";
 
 
-export default async function ProductHero() {
-  const sources = await db.select().from(sourceTable)
-  
+export default async function ProductHero() {  
+  const activesSources: SourceType[] = ['url']
 
   return (
     <>
@@ -23,7 +21,7 @@ export default async function ProductHero() {
               </div>
             </div>
             <div className="flex items-center justify-center">
-              <DataSourceList sources={sources} />
+              <DataSourceList sources={activesSources} />
             </div>
           </div>
         </div>

@@ -3,16 +3,9 @@ import { relations } from 'drizzle-orm';
 
 export const sourceType = pgEnum('source_type', ['notion', 'pdf', 'url']);
 
-export const sources = pgTable("sources", {
-  id: serial("id").primaryKey(),
-  type: sourceType("type").notNull(),
-  identifier: text("identifier").notNull(),
-  lastSyncAt: timestamp("last_sync_at").defaultNow(),
-});
-
 export const materials = pgTable("materials", {
   id: serial("id").primaryKey(),
-  sourceId: integer("sourceId").notNull(),
+  sourceType: sourceType("source_type").notNull(),
   metadata: jsonb("metadata").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   userId: text("user_id"),
@@ -68,6 +61,5 @@ export const assessmentsQuestionsRelations = relations(assessmentsQuestions, ({ 
     }),
 }));
 
-
-export type SelectSource = typeof sources.$inferSelect
 export type SelectQuestion = typeof questions.$inferSelect
+export type SourceType = typeof sourceType.enumValues[number];
