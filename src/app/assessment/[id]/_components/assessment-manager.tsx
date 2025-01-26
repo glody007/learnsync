@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input'
 import { SelectQuestion } from '@/db/schema'
 import { generateAssessment } from '@/app/server/actions'
 import { useRouter } from 'next/navigation'
+import { RegisterButton } from './register-button'
 
 type QuestionType = 'multiple-choice' | 'free-text' | 'radio'
 
@@ -23,7 +24,7 @@ export interface Question {
   correctAnswer: string | string[]
 }
 
-export default function AssessmentManager({ questions } : { questions: SelectQuestion[] }) {
+export default function AssessmentManager({ questions, materialId } : { questions: SelectQuestion[], materialId: number }) {
   const router = useRouter()
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<(string | string[])[]>([])
@@ -105,6 +106,9 @@ export default function AssessmentManager({ questions } : { questions: SelectQue
               exit={{ opacity: 0, x: -20 }}
             >
               <GradeDisplay grade={calculateGrade()} />
+              <div className="flex  mt-4">
+                <RegisterButton materialId={materialId} />
+              </div>
             </motion.div>
           ) : (
             <motion.div
@@ -131,6 +135,9 @@ export default function AssessmentManager({ questions } : { questions: SelectQue
                   onAnswer={handleAnswer}
                 />
               )}
+              <div className="flex  mt-4">
+                <RegisterButton materialId={materialId} />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

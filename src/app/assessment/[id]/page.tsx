@@ -8,6 +8,6 @@ export default async function AssessmentPage({ params }: { params: { id: string 
     const questions = await db.select().from(questionsTable).where(eq(questionsTable.materialId, parseInt(params.id)));
 
     return (
-        <AssessmentManager questions={questions} />
+        <AssessmentManager questions={questions} materialId={parseInt(params.id)} />
     )
 }
